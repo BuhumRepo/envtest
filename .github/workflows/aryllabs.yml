@@ -15,10 +15,10 @@ on:
         type: string
 
 env:
-  ARYL_PREVIEW_ID: "mf22brdcq4"
-  ARYL_ARTIFACT_PREFIX: "labs/mf22brdcq4/builds"
+  ARYL_PREVIEW_ID: "lproj_mx0c1146mcvu"
+  ARYL_ARTIFACT_PREFIX: "labs/lproj_mx0c1146mcvu/builds"
   ARYL_BUILD_CMD: "npm run build"
-  ARYL_OUTPUT_DIR: "dist"
+  ARYL_OUTPUT_DIR: "out"
 
 jobs:
   build:
@@ -63,8 +63,8 @@ jobs:
 
       - name: Package Artifact
         run: |
-          if [ -d "dist" ]; then
-            cd dist
+          if [ -d "out" ]; then
+            cd out
           elif [ -d "dist" ]; then
             cd dist
           elif [ -d "out" ]; then
@@ -88,7 +88,7 @@ jobs:
                  -H "Content-Type: application/zip"
           else
             echo "Push-triggered build: upload handled by callback"
-            curl --retry 3 --retry-delay 5 --retry-all-errors --fail-with-body -X PUT "https://api.aryllabs.com/api/labs/upload-push-build?previewId=mf22brdcq4&buildId=${{ steps.ids.outputs.build_id }}" \
+            curl --retry 3 --retry-delay 5 --retry-all-errors --fail-with-body -X PUT "https://api.aryllabs.com/api/labs/upload-push-build?previewId=lproj_mx0c1146mcvu&buildId=${{ steps.ids.outputs.build_id }}" \
                  --upload-file build.zip \
                  -H "Content-Type: application/zip" \
                  -H "Authorization: Bearer ${{ secrets.ARYL_BUILD_SECRET }}"
@@ -100,7 +100,7 @@ jobs:
           CALLBACK="${{ steps.ids.outputs.callback_url }}"
           curl --retry 3 --retry-delay 5 --retry-all-errors --fail-with-body -X POST "$CALLBACK&deployId=${{ steps.ids.outputs.build_id }}" \
                -H "Content-Type: application/json" \
-               -d '{"buildId": "${{ steps.ids.outputs.build_id }}", "previewId": "mf22brdcq4", "status": "success", "r2Path": "labs/mf22brdcq4/builds/${{ steps.ids.outputs.build_id }}.zip", "branch": "${{ github.ref_name }}"}'
+               -d '{"buildId": "${{ steps.ids.outputs.build_id }}", "previewId": "lproj_mx0c1146mcvu", "status": "success", "r2Path": "labs/lproj_mx0c1146mcvu/builds/${{ steps.ids.outputs.build_id }}.zip", "branch": "${{ github.ref_name }}"}'
 
       - name: Notify ArylHive (Failure)
         if: failure()
@@ -108,4 +108,4 @@ jobs:
           CALLBACK="${{ steps.ids.outputs.callback_url }}"
           curl --retry 3 --retry-delay 5 --retry-all-errors --fail-with-body -X POST "$CALLBACK&deployId=${{ steps.ids.outputs.build_id }}" \
                -H "Content-Type: application/json" \
-               -d '{"buildId": "${{ steps.ids.outputs.build_id }}", "previewId": "mf22brdcq4", "status": "failed", "error": "GitHub Actions Build Failed", "branch": "${{ github.ref_name }}"}'
+               -d '{"buildId": "${{ steps.ids.outputs.build_id }}", "previewId": "lproj_mx0c1146mcvu", "status": "failed", "error": "GitHub Actions Build Failed", "branch": "${{ github.ref_name }}"}'
