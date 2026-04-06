@@ -61,7 +61,7 @@ jobs:
       - name: Build Project
         run: npm run build
         env:
-          NEXT_PUBLIC_TEST_MSG: "SUCCESS!!"
+          NEXT_PUBLIC_TEST_MSG: "SS"
       - name: Package Artifact
         run: |
           if [ -d "dist" ]; then
